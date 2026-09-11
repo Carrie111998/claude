@@ -7,5 +7,3 @@ venv/
 dist/
 *.egg-info/
 .pytest_cache/
-*.db
-*.sqlite3
