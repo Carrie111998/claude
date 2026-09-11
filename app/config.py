@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     # OmniRoute
-    omniroute_base_url: str = "https://api.omniroute.ai/v1"
+    omniroute_base_url: str = "https://omniroute-0lvo.srv1854512.hstgr.cloud/v1"
     omniroute_api_key: str
 
     # App

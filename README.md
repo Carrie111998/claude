@@ -67,22 +67,13 @@ curl http://localhost:8000/health
 
 ## API Endpoints
 
-### OmniRoute Operations
+### Agents
 
-- `GET /api/v1/omniroute/agents` — List all agents in OmniRoute
-- `GET /api/v1/omniroute/agents/{id}` — Get a single OmniRoute agent
-- **`POST /api/v1/omniroute/agents/add`** — **Import agent from OmniRoute**
-- `POST /api/v1/omniroute/agents` — Register a new agent in OmniRoute
-- `DELETE /api/v1/omniroute/agents/{id}` — Delete an agent from OmniRoute
-
-### Local Agent Storage (Persistence)
-
-- **`POST /api/v1/agents`** — **Save an agent locally**
-- `GET /api/v1/agents` — List all locally saved agents
-- `GET /api/v1/agents/{id}` — Get a specific local agent
-- `GET /api/v1/agents/search?q=name` — Search agents by name/alias
-- `PUT /api/v1/agents/{id}` — Update a local agent
-- `DELETE /api/v1/agents/{id}` — Delete a local agent
+- `GET /api/v1/omniroute/agents` — List all agents
+- `GET /api/v1/omniroute/agents/{id}` — Get a single agent
+- **`POST /api/v1/omniroute/agents/add`** — Import agent from OmniRoute
+- `POST /api/v1/omniroute/agents` — Create a new agent
+- `DELETE /api/v1/omniroute/agents/{id}` — Delete an agent
 
 ### Utility
 
@@ -103,64 +94,6 @@ app/
 tests/
 └── test_omniroute.py    # Endpoint tests
 ```
-
-## Local Agent Persistence
-
-Agents imported from OmniRoute can be saved locally with SQLite for offline access and caching.
-
-```bash
-# Save an imported agent locally
-curl -X POST http://localhost:8000/api/v1/agents \
-  -H "Content-Type: application/json" \
-  -d '{
-    "id": "my-agent-123",
-    "name": "My Saved Agent",
-    "endpoint_url": "https://agents.example.com/my-agent",
-    "alias": "quick-agent",
-    "omniroute_id": "omniroute-id-here"
-  }'
-
-# Search local agents
-curl 'http://localhost:8000/api/v1/agents/search?q=python'
-
-# Get all saved agents
-curl http://localhost:8000/api/v1/agents
-
-# Update an agent
-curl -X PUT http://localhost:8000/api/v1/agents/my-agent-123 \
-  -H "Content-Type: application/json" \
-  -d '{"alias": "new-alias"}'
-```
-
-**Database:** SQLite (`agents.db` in project root)
-
-## MCP Server Integration
-
-The service includes an MCP (Model Context Protocol) server that exposes both OmniRoute and local agent operations as tools for Claude and other AI assistants.
-
-### Run MCP Server Standalone
-
-```bash
-# Start the MCP server
-OMNIROUTE_API_KEY=sk-your-key-here python app/mcp_server_main.py
-```
-
-### Use with Claude Code
-
-1. Add your API key to `.env`:
-   ```
-   OMNIROUTE_API_KEY=sk-your-key-here
-   ```
-
-2. The MCP server is configured in `.claude/settings.json` and will be available to Claude Code automatically.
-
-### Available MCP Tools
-
-- `omniroute_list_agents` — List all agents
-- `omniroute_get_agent` — Get a single agent by ID
-- `omniroute_add_agent` — Import an agent with optional alias
-- `omniroute_create_agent` — Register a new agent
-- `omniroute_delete_agent` — Delete an agent
 
 ## Running Tests
 
