@@ -25,40 +25,6 @@ async def list_tools() -> list[Tool]:
     """Expose OmniRoute operations as tools."""
     return [
         Tool(
-            name="local_list_agents",
-            description="List all locally stored agents",
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "skip": {
-                        "type": "integer",
-                        "description": "Number of agents to skip",
-                        "default": 0,
-                    },
-                    "limit": {
-                        "type": "integer",
-                        "description": "Maximum number of agents to return",
-                        "default": 100,
-                    },
-                },
-                "required": [],
-            },
-        ),
-        Tool(
-            name="local_get_agent",
-            description="Get a locally stored agent by ID",
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "agent_id": {
-                        "type": "string",
-                        "description": "The local agent ID",
-                    }
-                },
-                "required": ["agent_id"],
-            },
-        ),
-        Tool(
             name="omniroute_list_agents",
             description="List all agents available in OmniRoute",
             inputSchema={
@@ -155,74 +121,9 @@ async def list_tools() -> list[Tool]:
 
 @server.call_tool()
 async def call_tool(name: str, arguments: dict) -> ToolResult:
-    """Execute agent operations (local and OmniRoute)."""
+    """Execute OmniRoute operations."""
     try:
-        if name == "local_list_agents":
-            from app.db import SessionLocal
-            from app.services import AgentService
-
-            db = SessionLocal()
-            try:
-                skip = arguments.get("skip", 0)
-                limit = arguments.get("limit", 100)
-                agents = AgentService.list_agents(db, skip=skip, limit=limit)
-                agent_list = [
-                    {
-                        "id": a.id,
-                        "name": a.name,
-                        "alias": a.alias,
-                        "endpoint_url": a.endpoint_url,
-                        "status": a.status,
-                    }
-                    for a in agents
-                ]
-                return ToolResult(
-                    content=[
-                        TextContent(
-                            type="text",
-                            text=json.dumps(agent_list, indent=2),
-                        )
-                    ],
-                )
-            finally:
-                db.close()
-
-        elif name == "local_get_agent":
-            from app.db import SessionLocal
-            from app.services import AgentService
-
-            db = SessionLocal()
-            try:
-                agent = AgentService.get_agent(db, arguments["agent_id"])
-                if not agent:
-                    return ToolResult(
-                        content=[
-                            TextContent(type="text", text="Agent not found")
-                        ],
-                        is_error=True,
-                    )
-                return ToolResult(
-                    content=[
-                        TextContent(
-                            type="text",
-                            text=json.dumps(
-                                {
-                                    "id": agent.id,
-                                    "name": agent.name,
-                                    "alias": agent.alias,
-                                    "endpoint_url": agent.endpoint_url,
-                                    "status": agent.status,
-                                    "created_at": agent.created_at.isoformat(),
-                                },
-                                indent=2,
-                            ),
-                        )
-                    ],
-                )
-            finally:
-                db.close()
-
-        elif name == "omniroute_list_agents":
+        if name == "omniroute_list_agents":
             agents = await client.list_agents()
             return ToolResult(
                 content=[

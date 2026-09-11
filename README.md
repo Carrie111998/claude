@@ -95,6 +95,34 @@ tests/
 └── test_omniroute.py    # Endpoint tests
 ```
 
+## MCP Server Integration
+
+The service includes an MCP (Model Context Protocol) server that exposes OmniRoute operations as tools for Claude and other AI assistants.
+
+### Run MCP Server Standalone
+
+```bash
+# Start the MCP server
+OMNIROUTE_API_KEY=sk-your-key-here python app/mcp_server_main.py
+```
+
+### Use with Claude Code
+
+1. Add your API key to `.env`:
+   ```
+   OMNIROUTE_API_KEY=sk-your-key-here
+   ```
+
+2. The MCP server is configured in `.claude/settings.json` and will be available to Claude Code automatically.
+
+### Available MCP Tools
+
+- `omniroute_list_agents` — List all agents
+- `omniroute_get_agent` — Get a single agent by ID
+- `omniroute_add_agent` — Import an agent with optional alias
+- `omniroute_create_agent` — Register a new agent
+- `omniroute_delete_agent` — Delete an agent
+
 ## Running Tests
 
 ```bash
