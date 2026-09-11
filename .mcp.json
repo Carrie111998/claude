@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "omniroute": {
+      "type": "sse",
+      "url": "https://omniroute-0lvo.srv1854512.hstgr.cloud/api/mcp/sse",
+      "headers": {
+        "Authorization": "Bearer ${OMNIROUTE_API_KEY}"
+      }
+    }
+  }
+}
