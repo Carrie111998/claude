@@ -55,3 +55,13 @@ class OmniRouteClient:
                 headers=self._headers,
             )
             response.raise_for_status()
+
+    async def list_models(self) -> list[dict[str, Any]]:
+        """List all available models in OmniRoute."""
+        async with httpx.AsyncClient(timeout=self._timeout) as client:
+            response = await client.get(
+                f"{self.base_url}/models",
+                headers=self._headers,
+            )
+            response.raise_for_status()
+            return response.json()

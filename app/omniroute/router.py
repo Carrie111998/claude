@@ -105,3 +105,15 @@ async def delete_agent(
             status_code=exc.response.status_code,
             detail=f"OmniRoute error: {exc.response.text}",
         )
+
+
+@router.get("/models", response_model=list[dict])
+async def list_models(client: OmniRouteClient = Depends(get_omniroute_client)):
+    """List all available models in OmniRoute."""
+    try:
+        return await client.list_models()
+    except HTTPStatusError as exc:
+        raise HTTPException(
+            status_code=exc.response.status_code,
+            detail=f"OmniRoute error: {exc.response.text}",
+        )
