@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     # OmniRoute - Multiple endpoints for flexibility
     omniroute_base_url: str = "https://omniroute-0lvo.srv1854512.hstgr.cloud/v1"
     omniroute_cloudflare_url: str = "https://occasions-idol-increasingly-tested.trycloudflare.com/v1"
-    omniroute_local_url: str = "http://localhost:20128/v1"
+    omniroute_local_url: str = "http://localhost:32769/v1"
     omniroute_network_url: str = "http://172.16.1.2:20128/v1"
     omniroute_mcp_sse: str = "https://omniroute-0lvo.srv1854512.hstgr.cloud/api/mcp/sse"
     omniroute_endpoint: str = "public"  # Options: public, cloudflare, local, network
