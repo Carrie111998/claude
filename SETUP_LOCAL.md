@@ -56,10 +56,21 @@ cp .env.example .env
 
 Open `.env` in your editor and set:
 ```env
-OMNIROUTE_BASE_URL=https://omniroute-0lvo.srv1854512.hstgr.cloud/v1
 OMNIROUTE_API_KEY=sk-9f376f4c3ea8ffe3-39450a-242cd750
+OMNIROUTE_ENDPOINT=public
 DEBUG=false
 ```
+
+### Choose Your Endpoint
+
+Select which OmniRoute endpoint to use via `OMNIROUTE_ENDPOINT`:
+
+- **public** (default): `https://omniroute-0lvo.srv1854512.hstgr.cloud/v1`
+- **cloudflare**: `https://occasions-idol-increasingly-tested.trycloudflare.com/v1`
+- **local**: `http://localhost:20128/v1`
+- **network**: `http://172.16.1.2:20128/v1`
+
+Each endpoint can be used depending on your deployment setup. Change `OMNIROUTE_ENDPOINT` and restart the server to switch endpoints.
 
 ## Step 5: Run Tests
 
