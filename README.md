@@ -40,6 +40,9 @@ uvicorn app.main:app --reload
 ### 4. Test the API
 
 ```bash
+# List available models in OmniRoute
+curl http://localhost:8000/api/v1/omniroute/models | jq .
+
 # List all agents
 curl http://localhost:8000/api/v1/omniroute/agents
 
@@ -65,6 +68,20 @@ curl -X POST http://localhost:8000/api/v1/omniroute/agents \
 curl http://localhost:8000/health
 ```
 
+### 5. Switch Endpoints
+
+Edit `.env` to switch between endpoints:
+
+```bash
+# Use local OmniRoute instance
+OMNIROUTE_ENDPOINT=local
+
+# Or use Cloudflare tunnel
+OMNIROUTE_ENDPOINT=cloudflare
+
+# Then restart the server for the change to take effect
+```
+
 ## API Endpoints
 
 ### OmniRoute Operations
@@ -74,6 +91,7 @@ curl http://localhost:8000/health
 - **`POST /api/v1/omniroute/agents/add`** — **Import agent from OmniRoute**
 - `POST /api/v1/omniroute/agents` — Register a new agent in OmniRoute
 - `DELETE /api/v1/omniroute/agents/{id}` — Delete an agent from OmniRoute
+- `GET /api/v1/omniroute/models` — List all available models in OmniRoute
 
 ### Local Agent Storage (Persistence)
 
@@ -178,8 +196,32 @@ Environment variables (set in `.env`):
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `OMNIROUTE_BASE_URL` | `https://omniroute-0lvo.srv1854512.hstgr.cloud/v1` | OmniRoute API endpoint |
 | `OMNIROUTE_API_KEY` | (required) | OmniRoute API key |
+| `OMNIROUTE_ENDPOINT` | `public` | Endpoint to use: `public`, `cloudflare`, `local`, or `network` |
 | `DEBUG` | `false` | Enable FastAPI debug mode |
 | `APP_TITLE` | `Claude Agent Service` | App name in docs |
 | `APP_VERSION` | `0.1.0` | App version |
+
+### Multiple Endpoint Support
+
+The service supports multiple OmniRoute endpoints for different deployment scenarios:
+
+```bash
+# Public endpoint (default)
+OMNIROUTE_ENDPOINT=public
+# https://omniroute-0lvo.srv1854512.hstgr.cloud/v1
+
+# Cloudflare tunnel endpoint
+OMNIROUTE_ENDPOINT=cloudflare
+# https://occasions-idol-increasingly-tested.trycloudflare.com/v1
+
+# Local network endpoint
+OMNIROUTE_ENDPOINT=local
+# http://localhost:20128/v1
+
+# Internal network endpoint
+OMNIROUTE_ENDPOINT=network
+# http://172.16.1.2:20128/v1
+```
+
+Each endpoint can be selected via the `OMNIROUTE_ENDPOINT` environment variable. This allows seamless switching between cloud, Cloudflare tunnel, and local deployments.

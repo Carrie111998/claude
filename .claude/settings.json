@@ -1,12 +1,6 @@
-
 {
-  "mcpServers": {
-    "omniroute": {
-      "command": "python",
-      "args": ["app/mcp_server_main.py"],
-      "env": {
-        "OMNIROUTE_BASE_URL": "https://omniroute-0lvo.srv1854512.hstgr.cloud/v1"
-      }
-    }
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://omniroute-0lvo.srv1854512.hstgr.cloud",
+    "ANTHROPIC_AUTH_TOKEN": "sk-9f376f4c3ea8ffe3-fd9259-5713e58f"
   }
 }

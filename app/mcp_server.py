@@ -59,6 +59,15 @@ async def list_tools() -> list[Tool]:
             },
         ),
         Tool(
+            name="omniroute_list_models",
+            description="List all available models in OmniRoute",
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        ),
+        Tool(
             name="omniroute_list_agents",
             description="List all agents available in OmniRoute",
             inputSchema={
@@ -221,6 +230,17 @@ async def call_tool(name: str, arguments: dict) -> ToolResult:
                 )
             finally:
                 db.close()
+
+        elif name == "omniroute_list_models":
+            models = await client.list_models()
+            return ToolResult(
+                content=[
+                    TextContent(
+                        type="text",
+                        text=json.dumps(models, indent=2),
+                    )
+                ],
+            )
 
         elif name == "omniroute_list_agents":
             agents = await client.list_agents()
