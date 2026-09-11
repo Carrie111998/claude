@@ -1,0 +1,12 @@
+
+{
+  "mcpServers": {
+    "omniroute": {
+      "command": "python",
+      "args": ["app/mcp_server_main.py"],
+      "env": {
+        "OMNIROUTE_BASE_URL": "https://omniroute-0lvo.srv1854512.hstgr.cloud/v1"
+      }
+    }
+  }
+}
